@@ -10,6 +10,7 @@
         <em/>
         <span/>
       </div>
+      <Control />
       <List :start="start" :end="end" :cols="cols"/>
     </div>
   </div>
@@ -17,11 +18,13 @@
 
 <script>
 import List from './list';
+import Control from './control';
 
 export default {
   name: 'HotelDatePicker',
   components: {
     List,
+    Control,
   },
   props: {
     trigger: String, // element's id,
@@ -35,7 +38,7 @@ export default {
         left: 'auto',
         top: 'auto',
       },
-      cols: 1,
+      cols: 2,
       width: 365,
     };
   },

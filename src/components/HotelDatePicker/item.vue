@@ -9,7 +9,9 @@
           <td v-for="(day, index) in week"
               v-if="day"
               :class="{'is-available': day.available}"
-              :key="index">
+              :key="index"
+              @click="selectDate(day)"
+          >
             <h4>{{day.d.date()}}</h4>
           </td>
           <td v-else></td>
@@ -24,11 +26,18 @@ export default {
   name: 'Item',
   props: {
     data: Object,
+    checkIn: Object,
+    checkOut: Object,
   },
   data() {
     return {
       monthName: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     };
+  },
+  methods: {
+    selectDate(date) {
+      this.$emit('selectCheckIn', date);
+    },
   },
 };
 </script>

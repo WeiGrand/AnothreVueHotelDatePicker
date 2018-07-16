@@ -13,7 +13,13 @@
       </ul>
     </div>
     <ul>
-      <Item v-for="(month, index) in data" :key="index" :data="month" />
+      <Item v-for="(month, index) in data"
+            :key="index"
+            :data="month"
+            @selectCheckIn="selectCheckIn"
+            :checkIn="checkIn"
+            :checkOut="checkOut"
+      />
     </ul>
   </div>
 </template>
@@ -35,6 +41,8 @@ export default {
   data() {
     return {
       weekday: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'],
+      checkIn: null,
+      checkOut: null,
     };
   },
   computed: {
@@ -45,15 +53,10 @@ export default {
       const first = startDate.startOf('month'); // last day of the range
       const last = endDate.endOf('month');
       const array = []; // render data
-      // const empty = {};
       let week = [];
       let month = [];
       let pointer = first; // a pointer for loop
       // loop from the fist day to the last day
-      // const firstDay = pointer.day();
-      // for (let i = 0; i < firstDay; i += 1) {
-      //   week.push(empty);
-      // }
       while (pointer.isBefore(last)) {
         week[pointer.day()] = ({
           d: pointer,
@@ -82,6 +85,11 @@ export default {
       }
       window.console.log(array);
       return array;
+    },
+  },
+  methods: {
+    selectCheckIn(checkIn) {
+      this.checkIn = checkIn;
     },
   },
   mounted() {},
