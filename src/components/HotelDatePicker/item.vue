@@ -8,11 +8,19 @@
         <tr v-for="(week, index) in data.data" :key="index">
           <td v-for="(day, index) in week"
               v-if="day"
-              :class="{'is-available': day.available}"
+              :class="{
+              'is-available': day.available,
+              'is-selected': day.selected,
+              'is-hovered': day.hovered,
+              'is-during': day.during
+              }"
               :key="index"
-              @click="selectDate(day)"
+              @click="selectDate(day.d)"
+              @mouseover="hoverDate(day.d)"
+              @mouseleave="hoverDate(null)"
           >
             <h4>{{day.d.date()}}</h4>
+            <h5 v-if="day.text">{{day.text}}</h5>
           </td>
           <td v-else></td>
         </tr>
@@ -36,7 +44,10 @@ export default {
   },
   methods: {
     selectDate(date) {
-      this.$emit('selectCheckIn', date);
+      this.$emit('selectCheckDate', date);
+    },
+    hoverDate(date) {
+      this.$emit('selectHoverDate', date);
     },
   },
 };
@@ -91,6 +102,32 @@ export default {
         }
       }
 
+      &.is-hovered,
+      &.is-during {
+        background: #A7BEEE;
+        border-color: #A7BEEE;
+        h4,
+        h5 {
+          color: #FFF;
+        }
+      }
+
+      &.is-hovered {
+
+        &:hover {
+          background: #A7BEEE;
+          border-color: #A7BEEE;
+        }
+      }
+
+      &.is-during {
+
+        &:hover {
+          background: #8EA1CA;
+          border-color: #8EA1CA;
+        }
+      }
+
       &.is-selected {
         background: #4E7CDD;
         border-color: #4E7CDD;
@@ -98,9 +135,10 @@ export default {
         h5 {
           color: #FFF;
         }
+
         &:hover {
-          background: #A7BEEE;
-          border-color: #A7BEEE;
+          background: #4E7CDD;
+          border-color: #4E7CDD;
         }
       }
     }

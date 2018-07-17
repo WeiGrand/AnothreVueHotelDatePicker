@@ -3,7 +3,12 @@
     <div class="hotel-date-picker-trigger" id="J-hotel-picker-trigger">
       Click Here to show the picker
     </div>
-    <HotelDatePicker :trigger="`J-hotel-picker-trigger`" :start="`2018-01-02`" :end="`2018-02-01`"/>
+    <HotelDatePicker
+      :trigger="`J-hotel-picker-trigger`"
+      :start="`2018-01-02`"
+      :end="`2018-03-31`"
+      format="YYYY-MM-DD"
+      @success="onSuccess"/>
   </div>
 </template>
 
@@ -14,6 +19,11 @@ export default {
   name: 'App',
   components: {
     HotelDatePicker,
+  },
+  methods: {
+    onSuccess(res) {
+      window.console.log(res);
+    },
   },
 };
 </script>

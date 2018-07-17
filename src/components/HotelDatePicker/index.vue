@@ -11,7 +11,13 @@
         <span/>
       </div>
       <Control />
-      <List :start="start" :end="end" :cols="cols"/>
+      <List
+        :start="start"
+        :end="end"
+        :cols="cols"
+        :format="format"
+        @success="success"
+      />
     </div>
   </div>
 </template>
@@ -30,6 +36,7 @@ export default {
     trigger: String, // element's id,
     start: [String, Object],
     end: [String, Object],
+    format: String,
   },
   data() {
     return {
@@ -42,7 +49,11 @@ export default {
       width: 365,
     };
   },
-  methods: {},
+  methods: {
+    success(res) {
+      this.$emit('success', res);
+    },
+  },
   mounted() {
     const el = document.getElementById(this.trigger);
     el.addEventListener('click', (e) => {
