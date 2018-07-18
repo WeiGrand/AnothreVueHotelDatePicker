@@ -1,13 +1,37 @@
 <template>
   <div class="hdp-control">
-    <a class="hdp-control-prev" href="javascript:;"></a>
-    <a class="hdp-control-next is-available" href="javascript:;"></a>
+    <a :class="{
+    'hdp-control-prev': true,
+    'is-available': index > 0
+    }"
+       @click="goPrev"
+       href="javascript:;"
+    ></a>
+    <a :class="{
+    'hdp-control-next': true,
+    'is-available': index + 2 < total
+    }"
+       @click="goNext"
+       href="javascript:;"
+    ></a>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Control',
+  props: {
+    index: Number,
+    total: Number,
+  },
+  methods: {
+    goPrev() {
+      this.$emit('goPrev');
+    },
+    goNext() {
+      this.$emit('goNext');
+    },
+  },
 };
 </script>
 

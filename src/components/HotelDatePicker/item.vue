@@ -15,7 +15,7 @@
               'is-during': day.during
               }"
               :key="index"
-              @click="selectDate(day.d)"
+              @click="selectDate(day.d, $event)"
               @mouseover="hoverDate(day.d)"
               @mouseleave="hoverDate(null)"
           >
@@ -34,8 +34,6 @@ export default {
   name: 'Item',
   props: {
     data: Object,
-    checkIn: Object,
-    checkOut: Object,
   },
   data() {
     return {
@@ -43,7 +41,8 @@ export default {
     };
   },
   methods: {
-    selectDate(date) {
+    selectDate(date, event) {
+      event.stopPropagation();
       this.$emit('selectCheckDate', date);
     },
     hoverDate(date) {
@@ -55,7 +54,7 @@ export default {
 
 <style scoped lang="scss">
 .hdp-item {
-  width: 362px;
+  width: 364px;
   display: inline-block;
   vertical-align: top;
   margin-right: 10px;
@@ -68,9 +67,9 @@ export default {
     text-align: center;
   }
   &-bd {
+    max-width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
-    width: 100%;
     table-layout: fixed;
 
     td {

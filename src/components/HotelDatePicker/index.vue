@@ -5,24 +5,34 @@
     v-if="show"
     :style="{left: position.left, top: position.top}"
   >
-    <div :style="{width: cols * width + 'px'}">
+    <div :style="{width: cols * width + (cols - 1) * 10 + 'px'}">
       <div class="hdp-arrow">
         <em/>
         <span/>
       </div>
-      <Control />
+      <Control
+        :index="index"
+        :total="total"
+        @goPrev="goPrev"
+        @goNext="goNext"
+      />
       <List
+        :ref="`list`"
         :start="start"
         :end="end"
-        :cols="cols"
+        :cols="data.length > 1 ? cols : 1"
         :format="format"
-        @success="success"
+        :data="data.slice(index, index + 2)"
+        @selectCheckDate="selectCheckDate"
+        @selectHoverDate="selectHoverDate"
       />
     </div>
   </div>
 </template>
 
 <script>
+import dayjs from 'dayjs';
+
 import List from './list';
 import Control from './control';
 
@@ -45,18 +55,164 @@ export default {
         left: 'auto',
         top: 'auto',
       },
-      cols: 2,
-      width: 365,
+      cols: 2, // how many calendar item show each time
+      width: 364, // calendar item's width
+      checkIn: null, // check in date
+      checkOut: null, // check out date
+      hoverDate: null, // the dates between check in and the date which mouse is hovering
+      index: 0, // current calendar index (the left one)
     };
+  },
+  computed: {
+    data() {
+      const {
+        start,
+        end,
+        checkIn,
+        checkOut,
+        hoverDate,
+      } = this;
+
+      const startDate = start ? dayjs(start) : dayjs();
+      const endDate = end ? dayjs(end) : dayjs(); // first day of the range
+      const first = startDate.startOf('month'); // last day of the range
+      const last = endDate.endOf('month');
+      const array = []; // render data
+
+      let week = [];
+      let month = [];
+      let pointer = first; // a pointer for loop
+      // loop from the fist day to the last day
+      while (pointer.isBefore(last)) {
+        let text = null;
+        let isHovered = false;
+        let isDuring = false;
+        const isAvailable = !pointer.isBefore(startDate) && !pointer.isAfter(endDate);
+
+        if (pointer.isSame(checkIn)) {
+          text = 'Check In';
+        } else if (pointer.isSame(checkOut)) {
+          text = 'Check Out';
+        }
+
+        if (hoverDate) {
+          isHovered = pointer.isAfter(checkIn) && !pointer.isAfter(hoverDate) && isAvailable;
+        }
+
+        if (checkOut) {
+          isDuring = pointer.isAfter(checkIn) && pointer.isBefore(checkOut);
+        }
+
+        week[pointer.day()] = ({
+          d: pointer,
+          available: isAvailable,
+          selected: !!text,
+          hovered: isHovered,
+          during: isDuring,
+          text,
+        });
+
+        const weekLength = week.length;
+
+        if (weekLength === 7) {
+          month.push(week);
+          week = [];
+        }
+
+        const newPointer = pointer.add(1, 'day');
+
+        if (newPointer.date() === 1) {
+          if (weekLength < 7) {
+            week[6] = null;
+          }
+
+          month.push(week);
+          array.push({
+            year: pointer.year(),
+            month: pointer.month(),
+            data: month,
+          });
+
+          week = [];
+          month = [];
+        }
+
+        pointer = newPointer;
+      }
+
+      return array;
+    },
+    total() {
+      return this.data.length || 0;
+    },
   },
   methods: {
     success(res) {
       this.$emit('success', res);
     },
+    selectCheckDate(date) {
+      const {
+        checkIn,
+        checkOut,
+      } = this;
+
+      this.hoverDate = null;
+
+      if (checkIn === null || checkOut !== null || date.isBefore(checkIn)) {
+        this.checkIn = date;
+        this.checkOut = null;
+
+        return;
+      }
+
+      this.checkOut = date;
+
+      const {
+        format,
+      } = this;
+
+      this.$emit('success', {
+        checkIn: this.checkIn.format(format),
+        checkOut: this.checkOut.format(format),
+      });
+    },
+    selectHoverDate(date) {
+      if (this.checkIn === null || this.checkOut !== null) {
+        return;
+      }
+
+      this.hoverDate = date;
+    },
+    goPrev() {
+      if (this.index === 0) {
+        return;
+      }
+
+      this.index -= 1;
+    },
+    goNext() {
+      if (this.index + 2 === this.total) {
+        return;
+      }
+
+      this.index += 1;
+    },
+  },
+  updated() {
+    if (!this.hasBindUlEvent) {
+      this.$refs.list.$refs.ul.addEventListener('WebkitTransitionEnd', () => {
+
+      });
+
+      this.hasBindUlEvent = true;
+    }
   },
   mounted() {
     const el = document.getElementById(this.trigger);
-    el.addEventListener('click', (e) => {
+    const { nodeName } = el;
+    const event = nodeName === 'INPUT' ? 'focus' : 'click';
+
+    el.addEventListener(event, (e) => {
       const { target } = e;
       const {
         offsetLeft,
@@ -67,9 +223,26 @@ export default {
       this.position.left = `${offsetLeft}px`;
       this.position.top = `${(offsetTop + offsetHeight) - 1}px`;
       this.show = true;
+
+      setTimeout(() => {
+        const documentClick = () => {
+          this.show = false;
+
+          document.removeEventListener('click', documentClick);
+        };
+
+        document.addEventListener('click', documentClick, false);
+      }, 0);
     }, false);
+
+    if (nodeName === 'INPUT') {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }
   },
 };
+
 </script>
 
 <style scoped lang="scss">

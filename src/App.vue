@@ -1,12 +1,13 @@
 <template>
   <div id="app">
-    <div class="hotel-date-picker-trigger" id="J-hotel-picker-trigger">
+    <div class="hotel-date-picker-trigger" id="J-hotel-picker-trigger1">
       Click Here to show the picker
     </div>
+    <input type="text" id="J-hotel-picker-trigger" placeholder="Click Here to show the picker">
     <HotelDatePicker
       :trigger="`J-hotel-picker-trigger`"
       :start="`2018-01-02`"
-      :end="`2018-03-31`"
+      :end="`2018-12-31`"
       format="YYYY-MM-DD"
       @success="onSuccess"/>
   </div>
@@ -136,7 +137,6 @@ export default {
   border-radius: 2px;
   background: #FAFAFA;
   border: 1px solid #DDE0E6;
-  position: absolute;
   &:hover {
     border: 1px solid #86ABFF;
   }
