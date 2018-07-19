@@ -1,8 +1,8 @@
 {
   "name": "vue-hotel-date-picker",
   "version": "1.0.0",
-  "description": "A simple hotel date picker using vue",
-  "author": "22Infinite",
+  "description": "A simple hotel date picker for Vue.js",
+  "author": "22Infinite <hi.heweiguang@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -10,6 +10,15 @@
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"
   },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "date",
+    "datepicker",
+    "date picker",
+    "range",
+    "date range picker"
+  ],
   "dependencies": {
     "dayjs": "^1.7.4",
     "node-sass": "^4.9.2",
@@ -60,6 +69,10 @@
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WeiGrand/vueHotelDatePicker.git"
   },
   "engines": {
     "node": ">= 6.0.0",
