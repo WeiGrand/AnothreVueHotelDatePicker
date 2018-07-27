@@ -25,10 +25,12 @@ export default {
     total: Number,
   },
   methods: {
-    goPrev() {
+    goPrev(e) {
+      e.stopPropagation();
       this.$emit('goPrev');
     },
-    goNext() {
+    goNext(e) {
+      e.stopPropagation();
       this.$emit('goNext');
     },
   },

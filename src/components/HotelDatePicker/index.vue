@@ -5,10 +5,11 @@
     v-if="show"
     :style="{left: position.left, top: position.top}"
   >
+    <ul></ul>
     <div :style="{width: cols * width + (cols - 1) * 10 + 'px'}">
       <div class="hdp-arrow">
-        <em/>
-        <span/>
+        <em></em>
+        <span></span>
       </div>
       <Control
         :index="index"
@@ -37,7 +38,7 @@ import List from './list';
 import Control from './control';
 
 export default {
-  name: 'HotelDatePicker',
+  name: 'AnotherVueHotelDatePicker',
   components: {
     List,
     Control,
@@ -158,7 +159,7 @@ export default {
 
       this.hoverDate = null;
 
-      if (checkIn === null || checkOut !== null || date.isBefore(checkIn)) {
+      if (checkIn === null || checkOut !== null) {
         this.checkIn = date;
         this.checkOut = null;
 
@@ -246,11 +247,48 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  /deep/ * {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -user-select: none;
+  }
+
+  /deep/ div,
+  /deep/ h1,
+  /deep/ h2,
+  /deep/ h3,
+  /deep/ h4,
+  /deep/ h5,
+  /deep/ span,
+  /deep/ p,
+  /deep/ em,
+  /deep/ ul,
+  /deep/ li {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /deep/ ul {
+    list-style: outside none none;
+  }
+
+  /deep/ li {
+    list-style: none outside none;
+  }
+
   .hdp {
+
     &-container {
       font-size: 14px;
       color: #333;
       position: absolute;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+
       >div {
         background: #FFF;
         padding: 10px;

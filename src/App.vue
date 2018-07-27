@@ -4,7 +4,7 @@
       Click Here to show the picker
     </div>
     <input type="text" id="J-hotel-picker-trigger" placeholder="Click Here to show the picker">
-    <HotelDatePicker
+    <AnotherVueHotelDatePicker
       :trigger="`J-hotel-picker-trigger`"
       :start="`2018-01-02`"
       :end="`2018-12-31`"
@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import HotelDatePicker from './components/HotelDatePicker/';
+import AnotherVueHotelDatePicker from './components/HotelDatePicker/';
 
 export default {
   name: 'App',
   components: {
-    HotelDatePicker,
+    AnotherVueHotelDatePicker,
   },
   methods: {
     onSuccess(res) {
@@ -30,103 +30,7 @@ export default {
 </script>
 
 <style lang="scss">
-  * {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -user-select: none;
-  }
-
-  html,
-  body,
-  div,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  span,
-  p,
-  em,
-  img,
-  dl,
-  dt,
-  dd,
-  ol,
-  ul,
-  li,
-  form,
-  label,
-  nav,
-  footer,
-  header,
-  section,
-  time,
-  button,
-  input,
-  select,
-  textarea {
-    border: 0 none;
-    margin: 0;
-    padding: 0;
-  }
-
-  h1, h2, h3, h4 {
-    font-weight: normal;
-  }
-
-  input, textarea {
-    border-radius: 0;
-    outline: medium none;
-    -webkit-user-select: auto;
-    user-select: auto;
-  }
-
-  input:disabled, textarea:disabled {
-    opacity: 1;
-  }
-
-  button, input, select, textarea {
-    resize: none;
-  }
-
-  s, i, em, b, strong{
-    font-style: normal;
-    text-decoration: none;
-  }
-
-  img {
-    border: none;
-  }
-
-  ul, ol{
-    list-style: outside none none;
-  }
-
-  li {
-    list-style: none outside none;
-  }
-
-  button {
-    background: transparent;
-    outline: 0;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -user-select: none;
-  }
-
-  a {
-    text-decoration: none;
-  }
-
   #app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   padding: 20px;
   position: relative;
 }

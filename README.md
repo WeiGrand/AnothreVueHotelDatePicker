@@ -11,17 +11,17 @@ npm install another-vue-hotel-date-picker --save
 ## Usage
 
 ```javascript
-import vueHotelDatePicker from 'another-vue-hotel-date-picker';
+import AnotherVueHotelDatePicker from 'another-vue-hotel-date-picker';
 
 export default {
   components: {
-    vueHotelDatePicker,
+    AnotherVueHotelDatePicker,
   },
 }
 ```
 
 ```javascript
-<vueHotelDatePicker
+<AnotherVueHotelDatePicker
       :trigger="`J-hotel-picker-trigger`"
       :start="`2018-01-02`"
       :end="`2018-12-31`"
@@ -52,15 +52,25 @@ The start view date.
 The start end date.
 
 ### format
-- Type: `String`'
+- Type: `String`
 - Required: `false`,
 - Default: `undefined`
 
 The date format string.
 
 ### success
-- Type: `Function`'
+- Type: `Function`
 - Required: `false`,
 - Default: `undefined`
 
 The callback function when user selected both the check in and check out date
+
+## CHANGE LOG
+
+**1.1.0** 2018-07-27
+
+- `[Bug]`: Component style depends on reset.css or normalize.css.
+
+- `[Bug]`: The control buttons can trigger Calendar hide event.
+
+- `[Bug]`: Click the selected `check in` date second time will select the `check out` date as the same date.
